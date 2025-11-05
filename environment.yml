@@ -4,22 +4,25 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
+  - python=3.9.23
   - pip
   - numpy=1.26.4
-  - scipy
-  - scikit-learn=1.3.0
-  - pandas=1.5.3
-  - matplotlib
-  - pillow
-  - tqdm
+  - scipy=1.13.1
+  - matplotlib=3.9.4
+  - pillow=11.3.0
+  - tqdm=4.67.1
   - pip:
     - torchmetrics==1.3.0
-    - jax
-    - jaxlib
-    - jaxopt==0.8.3
-    - jaxtyping
+    - jax==0.4.30
+    - jaxlib==0.4.30
+    - jaxopt==0.8.5
+    - jaxtyping==0.2.36
     - einops==0.8.0
     - flax==0.8.5
-    - equinox==0.11.5
+    - equinox==0.11.10
     - lineax==0.0.7
+    - monai==1.5.1
+    - scikit-learn==1.6.1
+    - pandas==2.3.3
+    - torch==2.8.0
+    - torchvision==0.23.0
