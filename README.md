@@ -14,7 +14,8 @@ By taking into account the distinctive feature characteristics of OCT and fundus
 - **Conda lockfile**  
   To recreate the exact environment captured in this workspace without Docker:
   ```bash
-  docker compose build && docker compose up -d
+  sudo docker compose up --build
+  sudo docker compose up -d
   ```
 
 ## Quick Start
