@@ -1,0 +1,23 @@
+services:
+  ai-dev:
+    build: .
+    image: rima-ai-dev-pytorch:latest
+    container_name: ai_dev_env
+    restart: unless-stopped
+    tty: true
+    shm_size: "32gb"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TZ=Asia/Seoul
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    working_dir: /workspace
+    ports:
+      - "8888:8888"
+      - "6006:6006" # TensorBoard/JAX
+    command: /bin/bash

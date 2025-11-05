@@ -10,18 +10,12 @@ By taking into account the distinctive feature characteristics of OCT and fundus
 </p>
 
 ## Environment Reproducibility
-- **Docker (recommended)**  
-  The provided `Dockerfile` and `docker-compose.yml` build the full environment, including the cleaned `environment.yml` edits and local `perturbot` / `ott-local` installs. Run `docker compose build ai-dev` once, then `docker compose up -d ai-dev` to launch a container where the `rima` Conda environment auto-activates.
+
 - **Conda lockfile**  
   To recreate the exact environment captured in this workspace without Docker:
   ```bash
-  mamba env create -f environment.lock.yml
-  conda activate rima
-  pip install -e perturbot/
-  pip install -e ott-local/
+  docker compose build && docker compose up -d
   ```
-- **Pip fallback**  
-  If Conda is unavailable, `requirements.lock.txt` lists the pip packages pinned to the same versions (use inside a fresh Python 3.9 virtualenv).
 
 ## Quick Start
 ```sh
