@@ -465,7 +465,10 @@ if __name__ == "__main__":
                         help='modalties number')
     parser.add_argument('--lr', type=float, default=0.0001, metavar='LR',
                         help='learning rate')
-    parser.add_argument('--save_dir', default=r'C:\Users\yuqinkai\PycharmProjects\Code_AAAI\base_code\res\pth\dr_fusion\save', type=str)
+    parser.add_argument('--save_dir', default=os.path.join('results', 'pth', 'dr_fusion', 'save'), type=str)
+    parser.add_argument('--base-path', default=None, type=str, help='Directory containing label metadata such as train.xlsx')
+    parser.add_argument('--data-path', default=None, type=str, help='Directory containing the modality images')
+    parser.add_argument('--labels-file', default=None, type=str, help='Explicit path to the training label spreadsheet')
     parser.add_argument("--model_name", default="Multi_ResNet", type=str, help="Multi_ResNet")
     parser.add_argument("--dataset", default="MMOCTF", type=str, help="MMOCTF/MGamma/Gamma/OLIVES")
     parser.add_argument("--folder", default="folder0", type=str, help="folder0/folder1/folder2/folder3/folder4")
@@ -493,8 +496,29 @@ if __name__ == "__main__":
     # args.data_path = r'/mnt/datastore1/qinkaiyu/oct_fundus/mnt/sdb/feilong/Retinal_OCT/Medical_data/Glaucoma_Harvard_enhance/Train/Training'
     # args.base_path = r'D:\AMD\mnt\sdb\feilong\Retinal_OCT\Medical_data\AMD\train/'
     # args.data_path = r'D:\AMD\mnt\sdb\feilong\Retinal_OCT\Medical_data\AMD\train\Image'
-    args.base_path = r'D:\DR\mnt\sdb\feilong\Retinal_OCT\Medical_data\DR\train/'
-    args.data_path = r'D:\DR\mnt\sdb\feilong\Retinal_OCT\Medical_data\DR\train/Image_new'
+    args.save_dir = os.path.abspath(args.save_dir)
+    os.makedirs(args.save_dir, exist_ok=True)
+
+    if args.data_path is None:
+        raise SystemExit("Missing dataset path. Provide the image root via --data-path.")
+    args.data_path = os.path.abspath(args.data_path)
+    if not os.path.isdir(args.data_path):
+        raise FileNotFoundError(f"Dataset directory not found: {args.data_path}")
+
+    if args.base_path is not None:
+        args.base_path = os.path.abspath(args.base_path)
+        if not os.path.isdir(args.base_path):
+            raise FileNotFoundError(f"Base path directory not found: {args.base_path}")
+    else:
+        args.base_path = os.path.dirname(args.data_path)
+
+    if args.labels_file is not None:
+        args.labels_file = os.path.abspath(args.labels_file)
+    else:
+        args.labels_file = os.path.join(args.base_path, 'train.xlsx')
+    if not os.path.isfile(args.labels_file):
+        raise FileNotFoundError(f"Label file not found: {args.labels_file}")
+
     filelists = os.listdir(args.data_path)
     kf = KFold(n_splits=5, shuffle=True, random_state=10)
     y = kf.split(filelists)
@@ -509,13 +533,13 @@ if __name__ == "__main__":
                                       oct_img_size=args.dims[0],
                                       fundus_img_size=args.dims[1],
                                       mode='train',
-                                      label_file=args.base_path + 'train.xlsx',
+                                      label_file=args.labels_file,
                                       filelists=np.array(train_filelists[f_folder]))
     all_train_dataset = GAMMA_dataset(args, dataset_root=args.data_path,
                                       oct_img_size=args.dims[0],
                                       fundus_img_size=args.dims[1],
                                       mode='train',
-                                      label_file=args.base_path + 'train.xlsx',
+                                      label_file=args.labels_file,
                                       filelists=np.array(filelists))
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
     tsne_train_loader = torch.utils.data.DataLoader(all_train_dataset, batch_size=args.batch_size, shuffle=True)
@@ -523,7 +547,7 @@ if __name__ == "__main__":
                                     oct_img_size=args.dims[0],
                                     fundus_img_size=args.dims[1],
                                     mode='val',
-                                    label_file=args.base_path + 'train.xlsx',
+                                    label_file=args.labels_file,
                                     filelists=np.array(val_filelists[f_folder]), )
     val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=args.batch_size)
     args.modalties_name = ["FUN", "OCT"]

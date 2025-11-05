@@ -5,8 +5,7 @@ import time
 import ot
 from scipy import stats
 from scipy.sparse import random
-from ott.src.ott.solvers import linear
-from ott.src.ott.geometry import geometry
+from ._ott import geometry, linear
 from .utils import init_matrix_np, random_gamma_init
 from perturbot.perturbot.utils import mdict_to_matrix
 

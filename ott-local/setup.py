@@ -6,8 +6,8 @@ setup(
     description="Optimal Transport Tools - Local Version",
     packages=find_packages(),
     install_requires=[
-        "jax>=0.7.0",
-        "jaxlib>=0.7.0",
+        "jax>=0.4.30",
+        "jaxlib>=0.4.30",
         "numpy>=1.20.0,<2.0.0",
         "scipy>=1.7.0",
     ],

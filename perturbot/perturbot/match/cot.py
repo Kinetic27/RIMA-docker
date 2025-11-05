@@ -3,8 +3,7 @@ from numbers import Number
 import numpy as np
 import time
 import ot
-from ott.src.ott.solvers import linear
-from ott.src.ott.geometry import geometry
+from ._ott import geometry, linear
 from .utils import random_gamma_init, init_matrix_np
 import jax
 

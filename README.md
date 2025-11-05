@@ -9,6 +9,28 @@ By taking into account the distinctive feature characteristics of OCT and fundus
   <img src="./fig1.png">
 </p>
 
+## Environment Reproducibility
+- **Docker (recommended)**  
+  The provided `Dockerfile` and `docker-compose.yml` build the full environment, including the cleaned `environment.yml` edits and local `perturbot` / `ott-local` installs. Run `docker compose build ai-dev` once, then `docker compose up -d ai-dev` to launch a container where the `rima` Conda environment auto-activates.
+- **Conda lockfile**  
+  To recreate the exact environment captured in this workspace without Docker:
+  ```bash
+  mamba env create -f environment.lock.yml
+  conda activate rima
+  pip install -e perturbot/
+  pip install -e ott-local/
+  ```
+- **Pip fallback**  
+  If Conda is unavailable, `requirements.lock.txt` lists the pip packages pinned to the same versions (use inside a fresh Python 3.9 virtualenv).
+
+## Quick Start
+```sh
+python test.py \
+  --data-path /abs/path/to/DR/train/Image_new \
+  --base-path /abs/path/to/DR/train \
+  --labels-file /abs/path/to/DR/train/train.xlsx  # optional if it’s in base-path
+```
+
 ## Before start
 ### download pretrain 3D-Resnet here
 [link](https://drive.google.com/drive/folders/1Ytyg8pmAU0zSXDxY4klxw-BZW8Q-jBQ0?usp=sharing).

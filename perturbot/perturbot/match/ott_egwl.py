@@ -4,13 +4,17 @@ from numbers import Number
 import numpy as np
 import jax.numpy as jnp
 import time
-import ott.src.ott
-from ott.src.ott.geometry import pointcloud, geometry
-from ott.src.ott.problems.linear import linear_problem
-from ott.src.ott.problems.quadratic import quadratic_problem
-from ott.src.ott.solvers.quadratic import gromov_wasserstein
-from ott.src.ott.solvers import linear
-from ott.src.ott.solvers.linear import acceleration, sinkhorn
+
+from ._ott import (
+    acceleration,
+    geometry,
+    gromov_wasserstein,
+    linear,
+    linear_problem,
+    pointcloud,
+    quadratic_problem,
+    sinkhorn,
+)
 
 
 def create_block_diag_mat(labels_a, labels_b):
