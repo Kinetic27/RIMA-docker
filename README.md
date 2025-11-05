@@ -18,6 +18,13 @@ By taking into account the distinctive feature characteristics of OCT and fundus
   sudo docker compose up -d
   ```
 
+
+- ** When error **
+  ```sh
+  sudo docker compose build --no-cache
+  ```
+  for no cache
+
 ## Quick Start
 ```sh
 python test.py \
